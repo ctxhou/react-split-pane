@@ -80,7 +80,6 @@ export default React.createClass({
                         const current = this.props.split === 'vertical' ? event.clientX : event.clientY;
                         const size = this.props.split === 'vertical' ? width : height;
                         const pane2Size = size + (position - current);
-                        console.log(pane2Size)
                         if (pane2Size >= this.props.minSize && newSize >= this.props.minSize) {
                             this.updateNewSize(newSize);
                         }
