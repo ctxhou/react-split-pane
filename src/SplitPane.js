@@ -56,9 +56,10 @@ export default React.createClass({
     onMouseMove(event) {
         if (this.state.active) {
             this.unFocus();
-            const ref = this.refs.pane1;
-            if (ref) {
-                const node = ReactDOM.findDOMNode(ref);
+            const ref1 = this.refs.pane1;
+            const ref2 = this.refs.pane2;
+            if (ref1) {
+                const node = ReactDOM.findDOMNode(ref1);
                 if (node.getBoundingClientRect) {
                     const width = node.getBoundingClientRect().width;
                     const height = node.getBoundingClientRect().height;
@@ -72,19 +73,33 @@ export default React.createClass({
                         resized: true
                     });
 
-                    if (newSize >= this.props.minSize) {
-                        if (this.props.onChange) {
-                          this.props.onChange(newSize);
+                    if (ref2) {
+                        const node = ReactDOM.findDOMNode(ref2);
+                        const width = node.getBoundingClientRect().width;
+                        const height = node.getBoundingClientRect().height;
+                        const current = this.props.split === 'vertical' ? event.clientX : event.clientY;
+                        const size = this.props.split === 'vertical' ? width : height;
+                        const pane2Size = size + (position - current);
+                        console.log(pane2Size)
+                        if (pane2Size >= this.props.minSize && newSize >= this.props.minSize) {
+                            this.updateNewSize(newSize);
                         }
-                        ref.setState({
-                            size: newSize
-                        });
+                    } else if (newSize >= this.props.minSize) {
+                        this.updateNewSize(newSize);
                     }
                 }
             }
         }
     },
 
+    updateNewSize(newSize) {
+        if (this.props.onChange) {
+          this.props.onChange(newSize);
+        }
+        this.refs.pane1.setState({
+            size: newSize
+        });
+    },
 
     onMouseUp() {
         if (this.state.active) {

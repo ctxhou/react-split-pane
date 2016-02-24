@@ -31,6 +31,7 @@ export default React.createClass({
             }
             style.flex = 'none';
         }
+
         const prefixed = VendorPrefix.prefix({styles: style});
 
         return (<div className={classes.join(' ')} style={prefixed.styles}>{this.props.children}</div>);
