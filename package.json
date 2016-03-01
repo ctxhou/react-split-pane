@@ -21,6 +21,7 @@
     "es6"
   ],
   "dependencies": {
+    "classnames": "^2.2.3",
     "react-vendor-prefix": "^0.0.1"
   },
   "peerDependencies": {

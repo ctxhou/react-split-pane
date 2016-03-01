@@ -8,8 +8,8 @@ var Example = React.createClass({
     render: function() {
         return (
             <SplitPane split="vertical" minSize="50" defaultSize="100">
-                <div></div>
-                <div></div>
+                <div>Left</div>
+                <div>Right</div>
             </SplitPane>
         );
     }

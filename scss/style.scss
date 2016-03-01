@@ -1,0 +1,27 @@
+.Panel-wrapper {
+    display: flex;
+    flex: 1;
+    outline: none;
+    overflow: hidden;
+    user-select: text;
+    height: 100%;
+    position: relative;
+    &.vertical {
+        flex-direction: row;
+        height: 100%;
+        position: absolute;
+        left: 0;
+        right: 0;
+    }
+}
+
+.Pane {
+    flex: 1;
+    position: relative;
+    outline: none;
+    overflow: auto;
+}
+
+.displayNone {
+    display: none;
+}

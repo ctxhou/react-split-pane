@@ -14,14 +14,9 @@ export default React.createClass({
 
     render() {
         const split = this.props.split;
-        const classes = ['Pane', split];
+        const classes = ['Pane', this.props.className, split];
 
-        let style = {
-            flex: 1,
-            position: 'relative',
-            outline: 'none',
-            overflow: 'auto'
-        };
+        let style = {};
         if (this.state.size) {
             if (split === 'vertical') {
                 style.width = this.state.size;

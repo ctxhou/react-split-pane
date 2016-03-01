@@ -1,5 +1,7 @@
 # React Split Pane
 
+### this version only support vertical
+
 Split-Pane component built with [React](http://facebook.github.io/react), can be split vertically or horizontally.
 
 
