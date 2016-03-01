@@ -141,7 +141,11 @@ export default React.createClass({
         
         return (
             <div className={classes.join(' ')} ref="splitPane">
-                <Pane ref="pane1" key="pane1" split={split} className={leftPaneClass}>
+                <Pane ref="pane1" 
+                      key="pane1" 
+                      split={split} 
+                      className={leftPaneClass}
+                      otherHide={onlyLeft}>
                     {children[0]}
                 </Pane>
                 <Resizer className={resizerClass}
@@ -149,7 +153,11 @@ export default React.createClass({
                          key="resizer" 
                          onMouseDown={this.onMouseDown} 
                          split={split} /> 
-                <Pane ref="pane2" key="pane2" split={split} className={rightPaneClass}>
+                <Pane ref="pane2" 
+                      key="pane2" 
+                      split={split} 
+                      className={rightPaneClass}
+                      otherHide={onlyRight}>
                     {children[1]}
                 </Pane>
             </div>

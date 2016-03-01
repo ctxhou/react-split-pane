@@ -8,14 +8,13 @@ export default React.createClass({
 
 
     getInitialState() {
-        return {};
+        return {style: {}};
     },
-
 
     render() {
         const split = this.props.split;
         const classes = ['Pane', this.props.className, split];
-
+        const otherHide = this.props.otherHide;
         let style = {};
         if (this.state.size) {
             if (split === 'vertical') {
@@ -25,6 +24,10 @@ export default React.createClass({
                 style.display = 'flex';
             }
             style.flex = 'none';
+        }
+
+        if (otherHide) {
+            style.width = '100%';
         }
 
         const prefixed = VendorPrefix.prefix({styles: style});
