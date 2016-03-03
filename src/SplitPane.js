@@ -81,6 +81,8 @@ export default React.createClass({
                         const pane2Size = size + (position - current);
                         if (pane2Size >= this.props.minSize && newSize >= this.props.minSize) {
                             this.updateNewSize(newSize);
+                        } else if (pane2Size < this.props.minSize) {
+                            this.refs.panel2.setState({size: this.props.minSize})
                         }
                     } else if (newSize >= this.props.minSize) {
                         this.updateNewSize(newSize);
