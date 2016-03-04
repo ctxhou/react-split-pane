@@ -7,7 +7,8 @@ var Example = React.createClass({
     
     getInitialState: function() {
         return {
-            hide: false
+            hide: false,
+            defaultSize: 100
         }
     },
 
@@ -15,11 +16,21 @@ var Example = React.createClass({
         this.setState({hide: !this.state.hide})
     },
 
+    width: function() {
+        this.setState({defaultSize: 1900})
+    },
+
     render: function() {
         return (
-            <SplitPane split="vertical" minSize="50" defaultSize="100" onlyLeft={this.state.hide}>
+            <SplitPane split="vertical" 
+                       minSize="500" 
+                       defaultSize={this.state.defaultSize} 
+                       onlyLeft={this.state.hide}
+                       rightClassName='right'
+                       leftClassName='left'>
                 <div>Left
                 <button onClick={this.toggle}>toggle</button>
+                <button onClick={this.width}>width</button>
                 </div>
                 <div>Right</div>
             </SplitPane>

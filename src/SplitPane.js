@@ -27,12 +27,16 @@ export default React.createClass({
     componentDidMount() {
         document.addEventListener('mouseup', this.onMouseUp);
         document.addEventListener('mousemove', this.onMouseMove);
-        const ref = this.refs.pane1;
+        const ref = this.refs.leftPane;
         if (ref && this.props.defaultSize && !this.state.resized) {
             ref.setState({
                 size: this.props.defaultSize
             });
         }
+    },
+
+    componentWillReceiveProps(nextProps) {
+        this.updateLeftSize(nextProps.defaultSize);
     },
 
 
@@ -53,48 +57,54 @@ export default React.createClass({
 
 
     onMouseMove(event) {
+        const position = this.state.position;
         if (this.state.active) {
             this.unFocus();
-            const ref1 = this.refs.pane1;
-            const ref2 = this.refs.pane2;
-            if (ref1) {
-                const node = ReactDOM.findDOMNode(ref1);
-                if (node.getBoundingClientRect) {
-                    const width = node.getBoundingClientRect().width;
-                    const height = node.getBoundingClientRect().height;
+            const leftRef = this.refs.leftPane;
+            const rightRef = this.refs.rightPane;
+            if (leftRef) {
+                const leftNode = ReactDOM.findDOMNode(leftRef);
+                if (leftNode.getBoundingClientRect) {
+                    const width = leftNode.getBoundingClientRect().width;
+                    const height = leftNode.getBoundingClientRect().height;
                     const current = this.props.split === 'vertical' ? event.clientX : event.clientY;
                     const size = this.props.split === 'vertical' ? width : height;
-                    const position = this.state.position;
 
-                    const newSize = size - (position - current);
+                    const leftSize = size - (position - current);
                     this.setState({
                         position: current,
                         resized: true
                     });
 
-                    if (ref2) {
-                        const node = ReactDOM.findDOMNode(ref2);
-                        const width = node.getBoundingClientRect().width;
-                        const height = node.getBoundingClientRect().height;
+                    if (rightRef) {
+                        const rightNode = ReactDOM.findDOMNode(rightRef);
+                        const width = rightNode.getBoundingClientRect().width;
+                        const height = rightNode.getBoundingClientRect().height;
                         const current = this.props.split === 'vertical' ? event.clientX : event.clientY;
                         const size = this.props.split === 'vertical' ? width : height;
-                        const pane2Size = size + (position - current);
-                        if (pane2Size >= this.props.minSize && newSize >= this.props.minSize) {
-                            this.updateNewSize(newSize);
+                        const rightPaneSize = size + (position - current);
+                        if (rightPaneSize >= this.props.minSize && leftSize >= this.props.minSize) {
+                            this.updateLeftSize(leftSize);
                         }
-                    } else if (newSize >= this.props.minSize) {
-                        this.updateNewSize(newSize);
+                        if (rightPaneSize < this.props.minSize) {
+                            const gap = this.props.minSize - rightPaneSize;
+                            const leftSize = this.refs.leftPane.state.size;
+                            this.updateLeftSize(leftSize - gap)
+                        }
+                    } else if (leftSize >= this.props.minSize) {
+                        this.updateLeftSize(leftSize);
                     }
                 }
             }
+            
         }
     },
 
-    updateNewSize(newSize) {
+    updateLeftSize(newSize) {
         if (this.props.onChange) {
           this.props.onChange(newSize);
         }
-        this.refs.pane1.setState({
+        this.refs.leftPane.setState({
             size: newSize
         });
     },
@@ -128,21 +138,24 @@ export default React.createClass({
 
 
     render() {
-
-        const split = this.props.split;
-        const onlyLeft = this.props.onlyLeft;
-        const onlyRight = this.props.onlyRight;
-        const leftPaneClass = cx({displayNone: onlyRight});
+        const {
+            split,
+            onlyLeft,
+            onlyRight,
+            rightClassName,
+            leftClassName
+        } = this.props;
+        const leftPaneClass = cx(leftClassName, {displayNone: onlyRight});
         const resizerClass = cx({displayNone: onlyRight || onlyLeft});
-        const rightPaneClass = cx({displayNone: onlyLeft});
+        const rightPaneClass = cx(rightClassName, {displayNone: onlyLeft});
 
         const children = this.props.children;
         const classes = ['Panel-wrapper', split];
         
         return (
             <div className={classes.join(' ')} ref="splitPane">
-                <Pane ref="pane1" 
-                      key="pane1" 
+                <Pane ref="leftPane" 
+                      key="leftPane" 
                       split={split} 
                       className={leftPaneClass}
                       otherHide={onlyLeft}>
@@ -153,8 +166,8 @@ export default React.createClass({
                          key="resizer" 
                          onMouseDown={this.onMouseDown} 
                          split={split} /> 
-                <Pane ref="pane2" 
-                      key="pane2" 
+                <Pane ref="rightPane" 
+                      key="rightPane" 
                       split={split} 
                       className={rightPaneClass}
                       otherHide={onlyRight}>
