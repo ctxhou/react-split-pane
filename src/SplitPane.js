@@ -100,7 +100,7 @@ export default React.createClass({
         }
     },
 
-    updateLeftSizeAndTriggerChangeAndTriggerChange(newSize) {
+    updateLeftSizeAndTriggerChange(newSize) {
         if (this.props.onChange) {
           this.props.onChange(newSize);
         }
