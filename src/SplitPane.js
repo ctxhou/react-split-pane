@@ -84,15 +84,15 @@ export default React.createClass({
                         const size = this.props.split === 'vertical' ? width : height;
                         const rightPaneSize = size + (position - current);
                         if (rightPaneSize >= this.props.minSize && leftSize >= this.props.minSize) {
-                            this.updateLeftSize(leftSize);
+                            this.updateLeftSizeAndTriggerChange(leftSize);
                         }
                         if (rightPaneSize < this.props.minSize) {
                             const gap = this.props.minSize - rightPaneSize;
                             const leftSize = this.refs.leftPane.state.size;
-                            this.updateLeftSize(leftSize - gap)
+                            this.updateLeftSizeAndTriggerChange(leftSize - gap)
                         }
                     } else if (leftSize >= this.props.minSize) {
-                        this.updateLeftSize(leftSize);
+                        this.updateLeftSizeAndTriggerChange(leftSize);
                     }
                 }
             }
@@ -100,10 +100,14 @@ export default React.createClass({
         }
     },
 
-    updateLeftSize(newSize) {
+    updateLeftSizeAndTriggerChangeAndTriggerChange(newSize) {
         if (this.props.onChange) {
           this.props.onChange(newSize);
         }
+        this.updateLeftSize(newSize)
+    },
+
+    updateLeftSize(newSize) {
         this.refs.leftPane.setState({
             size: newSize
         });
