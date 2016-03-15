@@ -33,6 +33,8 @@ export default React.createClass({
                 size: this.props.defaultSize
             });
         }
+        if (this.props.didMount)
+            this.props.didMount();
     },
 
     componentWillReceiveProps(nextProps) {

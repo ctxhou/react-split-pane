@@ -12,6 +12,10 @@ var Example = React.createClass({
         }
     },
 
+    didMount: function() {
+        console.log('finish')
+    },
+
     toggle: function() {
         this.setState({hide: !this.state.hide})
     },
@@ -27,7 +31,8 @@ var Example = React.createClass({
                        defaultSize={this.state.defaultSize} 
                        onlyLeft={this.state.hide}
                        rightClassName='right'
-                       leftClassName='left'>
+                       leftClassName='left'
+                       didMount={this.didMount}>
                 <div>Left
                 <button onClick={this.toggle}>toggle</button>
                 <button onClick={this.width}>width</button>
